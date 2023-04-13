@@ -3,7 +3,7 @@ WORKDIR /data/resium-downhub
 COPY . .
 RUN apk add --no-cache git && \
     go mod download && \
-    go build -trimpath -o downhub main.go
+    go build -trimpath -o bin/downhub main.go
 
 FROM alpine:3.17
 LABEL maintainer="K8sCat <k8scat@gmail.com>"
