@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Login CR
+        run: make login-cr cr_password=${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build image
+        run: make build-image image_version=${{ steps.get_version.outputs.VERSION }}
+      
+      - name: Push image
+        run: make push-image image_version=${{ steps.get_version.outputs.VERSION }}
+
+      - name: Logout CR
+        run: make logout-cr
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
