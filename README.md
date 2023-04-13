@@ -2,6 +2,8 @@
 
 重构资源下载工具，支持多平台，支持多种资源下载。
 
+<img src="./images/mp_qrcode.jpg" />
+
 ## Support
 
 - [x] [百度文库](https://wenku.baidu.com/)
